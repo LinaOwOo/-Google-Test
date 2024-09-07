@@ -1,0 +1,50 @@
+#include <gtest/gtest.h>
+#include <vector>
+
+// Предполагается, что функция increaseVector определена выше или в заголовочном файле
+
+TEST(IncreaseVectorTest, BasicTest) {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    int n = 2;
+    std::vector<int> result = increaseVector(vec, n);
+    std::vector<int> expected = {3, 4, 5, 6, 7};
+    EXPECT_EQ(result, expected);
+}
+
+TEST(IncreaseVectorTest, EmptyVector) {
+    std::vector<int> vec = {};
+    int n = 5;
+    std::vector<int> result = increaseVector(vec, n);
+    std::vector<int> expected = {};
+    EXPECT_EQ(result, expected);
+}
+
+TEST(IncreaseVectorTest, NegativeIncrement) {
+    std::vector<int> vec = {5, 5, 5};
+    int n = -3;
+    std::vector<int> result = increaseVector(vec, n);
+    std::vector<int> expected = {2, 2, 2};
+    EXPECT_EQ(result, expected);
+}
+
+TEST(IncreaseVectorTest, LargeValues) {
+    std::vector<int> vec = {INT32_MAX, INT32_MIN};
+    int n = 1;
+    std::vector<int> result = increaseVector(vec, n);
+    std::vector<int> expected = {INT32_MAX + 1, INT32_MIN + 1};
+    EXPECT_EQ(result, expected);
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+cmake_minimum_required(VERSION 3.10)
+project(IncreaseVectorExample)
+
+set(CMAKE_CXX_STANDARD 11)
+
+# Подключение Google Test
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+add_executable(increase_vector_test increase_vector_test.cpp increase_vector.cpp)
+target_link_libraries(increase_vector_test gtest gtest_main)
